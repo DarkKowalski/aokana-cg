@@ -43,6 +43,12 @@ module AokanaCG
       raise "Base image should be 1 but not #{base_image_info_list.size}" if base_image_info_list.size > 1
 
       overlay_image_info_list = image_info_list.select(&:overlay?)
+      overlay_image_info_list.each do |overlay|
+        if base_image_info_list.first.prefix != overlay.prefix
+          warn "Prefix should be same but not #{base_image_info_list.first.prefix} and #{overlay.prefix}"
+        end
+      end
+
       merged_image = merge(base_image_info_list.first, overlay_image_info_list)
       save_image(merged_image, output_file)
     end
